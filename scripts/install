@@ -117,6 +117,7 @@ ynh_script_progression --message="Building $app... (this will take some time and
 
 pushd "$final_path"
 	ynh_use_nodejs
+	npm install -g npm
 	npm install
 	npm install -g bower
 	bower install
