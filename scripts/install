@@ -111,6 +111,18 @@ env_path="$PATH"
 ynh_add_systemd_config
 
 #=================================================
+# INSTALL CRYPTPAD
+#=================================================
+ynh_script_progression --message="Building $app... (this will take some time and resources!)" --weight=60
+
+pushd "$final_path"
+	ynh_use_nodejs
+	npm install
+	npm install -g bower
+	bower install
+popd
+
+#=================================================
 # CONFIGURE CONFIG.JS	
 #=================================================
 ynh_script_progression --message="Adding a configuration file..." --weight=1
@@ -118,18 +130,6 @@ ynh_script_progression --message="Adding a configuration file..." --weight=1
 ynh_add_config --template="../conf/config.js" --destination="$final_path/config/config.js"
 chmod 600 "$final_path/config/config.js"
 chown $app "$final_path/config/config.js"
-
-#=================================================
-# INSTALL CRYPTPAD
-#=================================================
-ynh_script_progression --message="Building $app... (this will take some time and resources!)" --weight=60
-
-pushd "$final_path"
-	ynh_use_nodejs
-	npm install --allow-root
-	npm install -g bower
-	bower install --allow-root
-popd
 
 #=================================================
 # INTEGRATE SERVICE IN YUNOHOST
